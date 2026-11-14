@@ -1,6 +1,6 @@
-# Visual Skills
+# Skills
 
-Small agent skills by Erez Lev. Browse the [interactive catalog](https://erezlev13.github.io/visual-skills/) to mark skills you've tried and leave feedback.
+Small agent skills by Erez Lev. Browse the [interactive catalog](https://erezlev13.github.io/skills/) to mark skills you've tried and leave feedback.
 
 ## Skills
 
