@@ -14,9 +14,11 @@ Copy `providers/codex/visual-response/` to `~/.codex/skills/visual-response/`. R
 
 ### ChatGPT Work
 
-**Recommended:** Download the [Visual Response skill ZIP](downloads/visual-response-chatgpt-work.zip). In ChatGPT Work, open **Plugins → Skills → Create → Upload from your computer** and select the downloaded ZIP. Review the skill and complete the installation in Work. A local Codex installation does not install it in Work.
+**For the Plugins screen shown in ChatGPT Work:** Download the [Visual Response plugin archive](downloads/visual-response-plugin.zip). Open **Plugins → Add → Upload plugin archive** and select that ZIP. It contains a plugin manifest and the Visual Response skill. Review the plugin and finish installing it. A local Codex installation does not install it in Work.
 
-If upload is unavailable, try **Create → Create with editor** and use the [ChatGPT Work skill file](providers/chatgpt-work/visual-response/SKILL.md). Workspace settings may restrict creation or uploading.
+If your account instead shows a dedicated **Skills → Create → Upload from your computer** option, use the separate [skill ZIP](downloads/visual-response-chatgpt-work.zip) there. These are different archive formats.
+
+If upload is unavailable, try **Create with editor** and use the [ChatGPT Work skill file](providers/chatgpt-work/visual-response/SKILL.md). Workspace settings may restrict creation or uploading.
 
 **Create with chat:** If you choose this option and Work asks what the skill should do, paste this response:
 
