@@ -15,6 +15,8 @@ class VisualDistributionTests(unittest.TestCase):
         canonical = MODULE.source_files(ROOT / "sources/visual-response")
         for relative in ("providers/chatgpt-work/visual-response",
                          "providers/codex/visual-response",
+                         "providers/claude-code/visual-response",
+                         "packages/daily-useful-claude/skills/visual-response",
                          "packages/daily-useful-plugin/skills/visual-response"):
             with self.subTest(path=relative):
                 self.assertEqual(canonical, MODULE.source_files(ROOT / relative),

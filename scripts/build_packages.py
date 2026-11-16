@@ -58,7 +58,11 @@ def build(root):
     sources = {name: (visual if name == "visual-response" else
                      source_files(root / "providers/chatgpt-work" / name)) for name in SKILLS}
     source_files(root / "providers/codex/step-by-step")
-    for provider in ("chatgpt-work", "codex"):
+    claude_sources = {"visual-response": visual,
+                      "step-by-step": source_files(root / "providers/claude-code/step-by-step")}
+    claude_package = root / "packages/daily-useful-claude"
+    claude_readme = (claude_package / "README.md").read_bytes()
+    for provider in ("chatgpt-work", "codex", "claude-code"):
         destination = root / "providers" / provider / "visual-response"
         if destination.exists():
             shutil.rmtree(destination)
@@ -80,7 +84,28 @@ def build(root):
     for name, files in sources.items():
         if source_files(generated / name) != files:
             raise ValueError(f"Generated plugin mirror differs: {name}")
-    return [root / "downloads/daily-useful-plugin.zip"]
+    claude_manifest = {key: metadata[key] for key in ("name", "version", "description")}
+    claude_manifest.update({key: metadata[key] for key in ("repository", "license") if key in metadata})
+    claude_manifest["author"] = {"name": "Erez Lev"}
+    manifest_path = claude_package / ".claude-plugin/plugin.json"
+    manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    manifest_bytes = (json.dumps(claude_manifest, indent=2) + "\n").encode()
+    manifest_path.write_bytes(manifest_bytes)
+    generated = claude_package / "skills"
+    if generated.exists():
+        shutil.rmtree(generated)
+    claude_entries = [(".claude-plugin/plugin.json", manifest_bytes), ("README.md", claude_readme)]
+    for name, files in claude_sources.items():
+        for relative, data in files:
+            target = generated / name / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(data)
+            claude_entries.append((f"skills/{name}/{relative}", data))
+        if source_files(generated / name) != files:
+            raise ValueError(f"Generated Claude plugin mirror differs: {name}")
+    claude_zip = root / "downloads/daily-useful-claude.zip"
+    write_zip(claude_zip, claude_entries)
+    return [root / "downloads/daily-useful-plugin.zip", claude_zip]
 
 
 if __name__ == "__main__":
