@@ -1,33 +1,21 @@
-# Skills
+# Daily Useful
 
-Small agent skills by Erez Lev. Browse the [interactive catalog](https://erezlev13.github.io/skills/) to mark skills you've tried and leave feedback.
+Two practical skills in one plugin: answers you can explore, and guidance you can follow.
 
-## Skills
-
-| Skill | Codex | ChatGPT Work |
+| Skill | Purpose | Guide |
 | --- | --- | --- |
-| [Visual Response](providers/codex/visual-response/SKILL.md) | [Install](#codex) | [Install](#chatgpt-work) |
+| **Visual Response** | Interactive explanations, comparisons, and timelines | [Work](providers/chatgpt-work/visual-response/README.md) · [Codex](providers/codex/visual-response/README.md) |
+| **Step by Step** | One step at a time, with Back, Next, Done, and contextual questions | [Work](providers/chatgpt-work/step-by-step/README.md) · [Codex](providers/codex/step-by-step/README.md) |
 
-### Codex
+**[Download Daily Useful](downloads/daily-useful-plugin.zip)** · [Installation and usage](packages/daily-useful-plugin/README.md) · [Interactive catalog](https://erezlev13.github.io/skills/)
 
-Copy `providers/codex/visual-response/` to `~/.codex/skills/visual-response/`. Restart Codex or start a new session to refresh skill discovery.
+## Development
 
-### ChatGPT Work
+Edit the provider folders. The build copies complete Work skills into the plugin, verifies those copies, and creates a deterministic ZIP; Codex instructions are maintained separately.
 
-**For the Plugins screen shown in ChatGPT Work:** Download the [Visual Response plugin archive](downloads/visual-response-plugin.zip). Open **Plugins → Add → Upload plugin archive** and select that ZIP. It contains a plugin manifest and the Visual Response skill. Review the plugin and finish installing it. A local Codex installation does not install it in Work.
+```sh
+python3 scripts/build_packages.py
+python3 -m unittest discover -s tests
+```
 
-If your account instead shows a dedicated **Skills → Create → Upload from your computer** option, use the separate [skill ZIP](downloads/visual-response-chatgpt-work.zip) there. These are different archive formats.
-
-If upload is unavailable, try **Create with editor** and use the [ChatGPT Work skill file](providers/chatgpt-work/visual-response/SKILL.md). Workspace settings may restrict creation or uploading.
-
-**Create with chat:** If you choose this option and Work asks what the skill should do, paste this response:
-
-> Create a skill named **Visual Response**. When my answer is long or structured, present it in the most useful navigable format: expandable sections for explanations, a step tracker for procedures, a timeline for events, a comparison view for options, or interactive charts for data. Keep all important facts, caveats, and sources accessible. Use a normal text response when interaction would not help or the current surface cannot render it.
->
-> Example task: “Explain three approaches to launching my product, including costs, tradeoffs, milestones, and a recommendation. Make the answer easy to explore and track.”
-
-Review Work's draft against the skill file before installing it. If Work reports that it cannot write skill storage or connect to the save service, the chat has not installed the skill; use the upload or editor flow in the Skills page when available.
-
-## Feedback
-
-The catalog's **I've used it** checkbox is private to your browser. The thumbs open a GitHub feedback issue; add a 👍 or 👎 reaction there. GitHub sign in is required for voting.
+[Feedback](https://github.com/erezlev13/skills/issues) · MIT licensed

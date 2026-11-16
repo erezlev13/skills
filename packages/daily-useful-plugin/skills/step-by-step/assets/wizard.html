@@ -1,0 +1,164 @@
+<div id="__ROOT__" class="step-guide">
+  <style>
+    #__ROOT__ { color:var(--foreground); display:grid; gap:calc(var(--font-size-base) * 1.25); }
+    #__ROOT__ .guide-heading { padding-inline-end:90px; }
+    #__ROOT__ .guide-content, #__ROOT__ .guide-help, #__ROOT__ .guide-complete { display:grid; gap:calc(var(--font-size-base) * 1); }
+    #__ROOT__ [hidden] { display:none !important; }
+    #__ROOT__ .guide-instruction { white-space:pre-wrap; overflow-wrap:anywhere; }
+    #__ROOT__ .guide-choices { display:grid; gap:calc(var(--font-size-base) * .5); }
+    #__ROOT__ .guide-status { min-height:1.5em; }
+    #__ROOT__ details > :not(summary) { margin-block-start:calc(var(--font-size-base) * .5); }
+  </style>
+  <div class="guide-heading"><div class="text-small" data-flow-title></div><h2 data-position aria-live="polite"></h2></div>
+  <div class="progress" role="progressbar" aria-label="Steps confirmed" aria-valuemin="0"><div class="progress-bar" style="width:0%"></div></div>
+  <section class="guide-content" data-step>
+    <h3 data-title></h3>
+    <div class="guide-instruction" data-instruction></div>
+    <div class="guide-choices" data-choices role="group" aria-label="Choose an option"></div>
+    <div data-expected-wrap><strong>Look for</strong><div class="guide-instruction" data-expected></div></div>
+    <details data-detail-wrap><summary>Why this step matters</summary><div class="guide-instruction" data-detail></div></details>
+    <div class="viz-row" data-links></div>
+    <div class="viz-row"><button type="button" class="btn" data-back>Back</button><button type="button" class="btn btn-primary" data-next>Next</button></div>
+    <div class="text-small" data-confirm-note>Next confirms you completed this step. It does not change settings for you.</div>
+  </section>
+  <section class="guide-complete" data-complete hidden>
+    <h3>Guide completed</h3><div>You marked the steps complete. External results have not been independently checked.</div>
+    <button type="button" class="btn" data-review>Review steps</button>
+  </section>
+  <hr>
+  <div class="viz-row" aria-label="Help with this step">
+    <button type="button" class="btn btn-ghost" data-help="question">Ask a question</button>
+    <button type="button" class="btn btn-ghost" data-help="missing">Something is missing</button>
+    <button type="button" class="btn btn-ghost" data-help="different">My screen is different</button>
+  </div>
+  <section class="guide-help" data-help-panel hidden aria-label="Ask about this step">
+    <label class="form-label" for="__ROOT__-question" data-help-label>Your question</label>
+    <textarea class="form-control" id="__ROOT__-question" data-question rows="3" maxlength="2000" placeholder="Describe what you need help with. Do not include passwords or secrets."></textarea>
+    <label class="form-label" for="__ROOT__-prompt">Message to continue in chat</label>
+    <textarea class="form-control" id="__ROOT__-prompt" data-prompt rows="6" readonly></textarea>
+    <div class="viz-row"><button type="button" class="btn btn-primary" data-send>Continue in chat</button><button type="button" class="btn" data-copy>Copy question</button><button type="button" class="btn btn-ghost" data-close-help>Close help</button></div>
+    <div class="text-small" data-bridge-note></div>
+    <div class="guide-status text-small" data-help-status role="status" aria-live="polite"></div>
+  </section>
+  <div class="text-small" data-state-note></div>
+  <script type="application/json" id="__ROOT__-data">__DATA__</script>
+</div>
+<script>
+(() => {
+__MACHINE__
+  const root = document.getElementById('__ROOT__');
+  const data = JSON.parse(document.getElementById('__ROOT__-data').textContent);
+  const query = selector => root.querySelector(selector);
+  const host = () => data.hostBridge ? window.openai : null;
+  const restored = host()?.widgetState?.privateContent;
+  const machine = createGuideMachine(data.flow, restored?.key === data.key ? restored.state : data.flow.resume);
+  const writer = globalThis.crypto?.randomUUID?.() || `view-${Date.now()}-${Math.random()}`;
+  const sync = createGuideSync(restored?.key === data.key ? restored : null, writer);
+  let helpKind = 'question';
+  const setText = (selector, text) => { query(selector).textContent = text || ''; };
+  function save() {
+    const stamp = sync.local();
+    if (typeof host()?.setWidgetState !== 'function') return;
+    const state = machine.snapshot();
+    const snapshot = { modelContent: { guide: data.flow.title, currentStep: state.current, confirmedSteps: state.completed, choices: state.answers }, privateContent: { key: data.key, state, ...stamp } };
+    if (new TextEncoder().encode(JSON.stringify(snapshot)).length >= 16384) return;
+    try { Promise.resolve(host().setWidgetState(snapshot)).catch(() => {}); } catch (_) { /* In-memory state remains usable. */ }
+  }
+  function promptText() {
+    const state = machine.snapshot();
+    const step = machine.current();
+    const question = query('[data-question]').value.trim();
+    return `Help me continue the "${data.flow.title}" guide.\nCurrent step: ${step.id} — ${step.title}\nInstruction: ${step.instruction}\nIssue: ${helpKind}\nMy question: ${question || '(Please help me with this step.)'}\nResume context: ${JSON.stringify({ guide: data.flow.id, revision: data.flow.revision, current: state.current, completed: state.completed, answers: state.answers })}\nAnswer my question, adapt the affected instructions if needed, and resume at this unresolved step. My progress is self-reported, not independently verified.`;
+  }
+  function updatePrompt() {
+    query('[data-prompt]').value = promptText();
+    query('[data-send]').disabled = !query('[data-question]').value.trim();
+  }
+  function render() {
+    const focused = document.activeElement;
+    const focusedChoice = focused && root.contains(focused) ? { value: focused.dataset?.choiceValue, step: focused.dataset?.stepId } : null;
+    const state = machine.snapshot();
+    const step = machine.current();
+    const shown = machine.visible();
+    const index = shown.findIndex(item => item.id === step.id);
+    setText('[data-flow-title]', data.flow.title);
+    setText('[data-position]', state.done ? `${shown.length} steps confirmed` : `Step ${index + 1} of ${shown.length}`);
+    const progress = query('[role="progressbar"]');
+    progress.setAttribute('aria-valuemax', String(shown.length));
+    progress.setAttribute('aria-valuenow', String(state.completed.length));
+    query('.progress-bar').style.width = `${state.completed.length / shown.length * 100}%`;
+    query('[data-step]').hidden = state.done;
+    query('[data-complete]').hidden = !state.done;
+    setText('[data-title]', step.title);
+    setText('[data-instruction]', step.instruction);
+    setText('[data-expected]', step.expected);
+    query('[data-expected-wrap]').hidden = !step.expected;
+    setText('[data-detail]', step.detail);
+    query('[data-detail-wrap]').hidden = !step.detail;
+    query('[data-choices]').replaceChildren();
+    (step.choices || []).forEach(choice => {
+      const button = document.createElement('button'); button.type = 'button'; button.className = 'btn'; button.textContent = choice.label;
+      button.setAttribute('aria-pressed', String(state.answers[step.id] === choice.value));
+      button.dataset.choiceValue = choice.value; button.dataset.stepId = step.id;
+      button.addEventListener('click', () => { if (machine.choose(choice.value)) { render(); save(); const selected = [...query('[data-choices]').children].find(item => item.getAttribute('aria-pressed') === 'true'); selected?.focus(); } });
+      query('[data-choices]').append(button);
+    });
+    query('[data-choices]').hidden = !step.choices;
+    query('[data-links]').replaceChildren();
+    (step.links || []).forEach(link => { const a = document.createElement('a'); a.textContent = link.label; a.href = link.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; query('[data-links]').append(a); });
+    query('[data-links]').hidden = !(step.links || []).length;
+    query('[data-back]').disabled = index === 0;
+    const last = index === shown.length - 1;
+    setText('[data-next]', last ? 'Done' : 'Next');
+    setText('[data-confirm-note]', `${last ? 'Done' : 'Next'} confirms you completed this step. It does not change settings for you.`);
+    query('[data-next]').disabled = !!step.choices && !Object.prototype.hasOwnProperty.call(state.answers, step.id);
+    const hasSend = typeof host()?.sendFollowUpMessage === 'function';
+    query('[data-send]').hidden = !hasSend;
+    setText('[data-bridge-note]', hasSend ? 'Opens a chat request. If no message appears, copy the question and paste it into this chat.' : 'Copy this message and paste it into this chat. Direct chat requests are unavailable here.');
+    setText('[data-state-note]', typeof host()?.setWidgetState === 'function' ? 'Progress may be restored by this chat. Availability varies across clients.' : 'Progress is kept while this view stays open.');
+    if (!query('[data-help-panel]').hidden) updatePrompt();
+    if (focusedChoice?.step === step.id && focusedChoice.value) {
+      [...query('[data-choices]').children].find(button => button.dataset.choiceValue === focusedChoice.value)?.focus();
+    }
+  }
+  function navigation(action) {
+    if (!action()) return;
+    query('[data-help-panel]').hidden = true; query('[data-question]').value = ''; query('[data-detail-wrap]').open = false;
+    render(); save();
+  }
+  query('[data-next]').addEventListener('click', () => navigation(machine.next));
+  query('[data-back]').addEventListener('click', () => navigation(machine.back));
+  query('[data-review]').addEventListener('click', () => navigation(() => { machine.review(); return true; }));
+  root.querySelectorAll('[data-help]').forEach(button => button.addEventListener('click', () => {
+    helpKind = button.dataset.help; query('[data-help-panel]').hidden = false;
+    setText('[data-help-label]', helpKind === 'different' ? 'What do you see instead?' : helpKind === 'missing' ? 'What information or option is missing?' : 'Your question');
+    setText('[data-help-status]', ''); updatePrompt(); query('[data-question]').focus();
+  }));
+  query('[data-close-help]').addEventListener('click', () => { query('[data-help-panel]').hidden = true; });
+  query('[data-question]').addEventListener('input', updatePrompt);
+  query('[data-copy]').addEventListener('click', () => {
+    const prompt = query('[data-prompt]');
+    if (!navigator.clipboard?.writeText) { prompt.focus(); prompt.select(); setText('[data-help-status]', 'Selected the message. Copy it and paste it into this chat.'); return; }
+    navigator.clipboard.writeText(prompt.value).then(() => setText('[data-help-status]', 'Copied. Paste the message into this chat.'), () => { prompt.focus(); prompt.select(); setText('[data-help-status]', 'Select and copy the message, then paste it into this chat.'); });
+  });
+  query('[data-send]').addEventListener('click', () => {
+    if (!query('[data-question]').value.trim()) return;
+    const bridge = host();
+    if (typeof bridge?.sendFollowUpMessage !== 'function') { render(); return; }
+    try {
+      const request = bridge.sendFollowUpMessage({ prompt: promptText(), title: `Help with ${machine.current().title}`.slice(0, 250) });
+      setText('[data-help-status]', 'Chat request opened. If no message appears, use Copy question.');
+      Promise.resolve(request).catch(() => setText('[data-help-status]', 'The chat request was not completed. Copy the question and paste it into this chat.'));
+    } catch (_) { setText('[data-help-status]', 'The chat request was not completed. Copy the question and paste it into this chat.'); }
+  });
+  if (data.hostBridge) window.addEventListener('openai:set_globals', event => {
+    const saved = event.detail?.globals?.widgetState?.privateContent;
+    if (saved?.key !== data.key || !sync.accept(saved)) return;
+    const before = machine.current().id;
+    machine.restore(saved.state);
+    if (machine.current().id !== before) { query('[data-help-panel]').hidden = true; query('[data-question]').value = ''; }
+    render();
+  });
+  render();
+})();
+</script>
