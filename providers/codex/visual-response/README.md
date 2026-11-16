@@ -14,7 +14,7 @@ For guided tasks with Next, Back, Done, and contextual questions, use the compan
 
 The first view should be useful immediately; controls should change relevant content or state. Sources, assumptions, and important limitations remain accessible. Explicit visual requests should not quietly turn into Markdown lists.
 
-This skill uses the renderer supplied by ChatGPT. It does not add UI capabilities, perform the actions shown in a diagram, or guarantee persistence or a chat bridge on every client. If rendering fails, it should explain the limitation and label the text alternative.
+This skill uses a renderer supplied by the Codex host. Terminal-only Codex has no inline renderer; a browser-openable HTML alternative may be appropriate. Installing this skill does not add UI capabilities, perform actions shown in a diagram, or guarantee persistence or a chat bridge. If rendering fails, it should explain the limitation and label the alternative.
 
 ## Efficiency and contents
 
@@ -25,8 +25,8 @@ The entrypoint is compact; pattern guidance loads only when needed. Validation r
 - `scripts/check_fragment.py`: basic fragment checks, not browser or UI verification.
 - `agents/openai.yaml`: display metadata.
 
-Install through the Daily Useful plugin archive. Updating repository files alone does not update an already installed plugin.
+Copy this complete directory to your Codex skills location. The Daily Useful plugin archive packages the ChatGPT Work variant. Updating repository files alone does not update an installed copy.
 
-## Content fidelity
+## Content preservation
 
-Preserve reasoning, ranges, examples, caveats, milestones and decision criteria. Details may be expandable. Compare source and output before delivery.
+Converting an existing answer preserves its important facts, costs, caveats, examples, success criteria, and next decisions. Ask for “the full answer first, then the interactive guide” to receive both in that order.

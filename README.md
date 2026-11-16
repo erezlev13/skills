@@ -1,10 +1,21 @@
-# Skills
+# Daily Useful
 
-Reusable skills by Erez Lev.
+Two practical skills in one plugin: answers you can explore, and guidance you can follow.
 
-| Package | Contents | Download |
+| Skill | Purpose | Guide |
 | --- | --- | --- |
-| [Daily Useful](packages/daily-useful-plugin/README.md) | Visual Response and Step by Step | [Plugin ZIP](downloads/daily-useful-plugin.zip) |
-| [Visual Response for Codex](providers/codex/visual-response/README.md) | Content-preserving visuals | Copy folder to your Codex skills directory |
+| **Visual Response** | Interactive explanations, comparisons, and timelines | [Work](providers/chatgpt-work/visual-response/README.md) · [Codex](providers/codex/visual-response/README.md) |
+| **Step by Step** | One step at a time, with Back, Next, Done, and contextual questions | [Work](providers/chatgpt-work/step-by-step/README.md) · [Codex](providers/codex/step-by-step/README.md) |
 
-Each skill has a dedicated README. Standalone Visual Response archives remain for compatibility.
+**[Download Daily Useful](downloads/daily-useful-plugin.zip)** · [Installation and usage](packages/daily-useful-plugin/README.md) · [Interactive catalog](https://erezlev13.github.io/skills/)
+
+## Development
+
+Edit the provider folders. The build copies complete Work skills into the plugin, verifies those copies, and creates a deterministic ZIP; Codex instructions are maintained separately.
+
+```sh
+python3 scripts/build_packages.py
+python3 -m unittest discover -s tests
+```
+
+[Feedback](https://github.com/erezlev13/skills/issues) · MIT licensed

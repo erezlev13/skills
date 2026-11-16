@@ -33,3 +33,7 @@ Use concise labels inside visuals and adjacent prose for explanation when requir
 - Can the primary interaction work by keyboard and at a narrow width?
 - Does the final response actually include the rendered surface reference?
 - Are storage, chat, and completion claims limited to what the host and tests support?
+
+## Conversion regression case
+
+Given a long comparison of manual pilot, prototype, and custom MVP, a timeline slider is insufficient. Retain each route's purpose, effort range, cash-cost categories, learning questions, tradeoffs, and advancement criteria; retain the recommendation and its rationale, concrete pilot/report examples, measurement limitations, and continue/revise/stop decisions. Check these against the source answer, not just the labels in the visual. Use adjacent prose if the host prohibits narrative in the fragment.

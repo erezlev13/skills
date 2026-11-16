@@ -27,6 +27,6 @@ The entrypoint is compact; pattern guidance loads only when needed. Validation r
 
 Install through the Daily Useful plugin archive. Updating repository files alone does not update an already installed plugin.
 
-## Content fidelity
+## Content preservation
 
-Preserve reasoning, ranges, examples, caveats, milestones and decision criteria. Details may be expandable. Compare source and output before delivery.
+Converting an existing answer preserves its important facts, costs, caveats, examples, success criteria, and next decisions. Ask for “the full answer first, then the interactive guide” to receive both in that order.

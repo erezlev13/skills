@@ -21,11 +21,9 @@ Keep navigation local. Use only documented, feature-detected follow-up APIs for 
 
 ## Preserve the answer
 
-Treat an existing answer as the content baseline, not a summary prompt. Map its recommendation and reasoning, options, explanations, examples, costs, tradeoffs, milestones, decision criteria, caveats, and sources to visible content or clearly labeled reachable detail. Condense wording without dropping decision-relevant meaning. Use adjacent prose if the host cannot accommodate detail.
+When converting an existing answer, treat it as the content baseline, not a request to summarize. Map recommendations, reasons, comparisons, costs, milestones, success criteria, examples, caveats, sources, and next decisions to visible content, accessible detail, or adjacent prose. Preserve ranges, units, and assumptions. Check this map before delivery; restore omissions. If the host restricts narrative inside the visual, retain it in adjacent prose. Honor requests for a full answer first and the interactive version afterward.
 
-Keep ranges, units, qualifiers, and uncertainty intact; sliders must transform both bounds and retain open-ended bounds. Never replace a range with its minimum or invent milestone durations, evidence, or scores to fill a layout. Label new assumptions separately.
-
-Keep the recommendation and rationale visible initially. Preserve procedural stages and continue/revise/stop criteria. Before delivery, compare the completed content against the baseline: check every mapped item is reachable, every number retains its meaning, and no unsupported claim was added. Fix omissions. Optimize instruction/code repetition, not useful answer content.
+Keep the recommendation and rationale visible initially. Controls must preserve both ends of ranges, units, qualifiers, and open-ended bounds. Never substitute a lower bound for an estimate or invent milestone durations, evidence, or scores to fill a layout. Label new assumptions separately. Preserve procedural stages and continue/revise/stop criteria. Check every mapped item is reachable and every number retains its meaning; remove unsupported additions. Optimize repeated instructions and code, not useful answer content.
 
 ## Verify and deliver efficiently
 

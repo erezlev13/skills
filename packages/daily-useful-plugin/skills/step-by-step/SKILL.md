@@ -7,6 +7,8 @@ description: Provide one-step-at-a-time guidance for setup, troubleshooting, and
 
 Present a survey-like guide: one actionable step and one primary button. Explicit requests call for working controls when the host supports them, even for short procedures.
 
+If the user asks for a long answer first, provide it before the guide in the same response. Otherwise start with the current step. When adapting prior guidance, preserve all actions, prerequisites, examples needed to act, costs, caveats, and decision criteria across the steps and their details; do not turn them into an abbreviated checklist. Verify coverage against the source before delivery. A generated demo alone does not update this reusable skill.
+
 ## Prepare
 
 Establish the goal, environment, and starting point. Verify changing product labels or prerequisites with sources. Ask only for information that changes the next action. Use choices for known paths; resolve unknown paths in chat rather than inventing instructions.
