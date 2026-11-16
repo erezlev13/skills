@@ -22,6 +22,7 @@ The entrypoint is compact; pattern guidance loads only when needed. Validation r
 
 - `SKILL.md`: selection, rendering, verification, and delivery instructions.
 - `references/patterns.md`: optional composition examples.
+- `references/content-fidelity.md`: required checks when converting an existing answer.
 - `references/chatgpt.md`, `claude.md`, `codex.md`: load only the matching host adapter.
 - `scripts/check_fragment.py`: basic fragment checks, not browser or UI verification.
 - `agents/openai.yaml`: display metadata.

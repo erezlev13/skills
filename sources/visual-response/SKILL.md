@@ -24,9 +24,9 @@ The visual is a presentation of the answer, not a substitute. Preserve the answe
 
 ## Preserve and place content
 
-When converting an answer, map its recommendations, reasons, comparisons, costs, milestones, success criteria, examples, caveats, sources, and next decisions to the output. Preserve ranges, units, and assumptions; restore omissions before delivery. Honor a requested full answer before the interactive version.
+For conversions, read [content-fidelity.md](references/content-fidelity.md). Treat it as the baseline, not a summary request. Preserve its facts, rationale, examples, ranges, assumptions, sources, and next decisions; invent no filler values. Honor a requested full answer before the interactive version.
 
-Put the conclusion and next action in concise adjacent text when useful; put supported details in the visual as real selectable or accessible text. If the host prohibits narrative in visuals, keep that narrative adjacent. Avoid duplicating the full answer unless requested. Keep the recommendation, decisive criteria, and material caveats visible before clicks. Optional detail may use clearly labeled, keyboard-accessible disclosure; never make hover the only route to a fact or hide a requested comparison dimension in a tab.
+Put the conclusion and next action in concise adjacent text when useful; put supported details in the visual as real selectable or accessible text. If the host prohibits narrative in visuals, keep that narrative adjacent. Avoid duplicating the full answer unless requested. Show the recommendation, rationale, decisive criteria, and material caveats before clicks. Optional detail may use clearly labeled, keyboard-accessible disclosure; never make hover the only route to a fact or hide a requested comparison dimension in a tab.
 
 Place sources near supported claims in the host's citation format. For code, cite a verified `file:line` or qualified symbol (and revision when relevant); never invent line numbers. Preserve these references during conversion.
 
