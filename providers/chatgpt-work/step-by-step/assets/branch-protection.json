@@ -1,0 +1,54 @@
+{
+  "id": "protect-main",
+  "revision": "1",
+  "title": "Require pull requests for main",
+  "steps": [
+    {
+      "id": "open-settings",
+      "title": "Open branch settings",
+      "instruction": "Open erezlev13/skills → Settings → Branches. You need repository administration access.",
+      "expected": "The branch protection section is visible.",
+      "detail": "This guide records your progress only. It does not change GitHub settings. If the option is unavailable, use My screen is different; availability can depend on repository visibility and your GitHub plan.",
+      "links": [{"label": "Open branch settings", "url": "https://github.com/erezlev13/skills/settings/branches"}]
+    },
+    {
+      "id": "existing-rule",
+      "title": "Check for an existing rule",
+      "instruction": "Is there already a classic branch protection rule for main?",
+      "choices": [{"value": "yes", "label": "Yes, a rule for main exists"}, {"value": "no", "label": "No, create a rule"}]
+    },
+    {
+      "id": "edit-rule",
+      "title": "Edit the main rule",
+      "instruction": "Click Edit beside the existing rule for main. Preserve any protections already enabled.",
+      "expected": "The rule editor shows main as the branch name pattern.",
+      "showIf": {"step": "existing-rule", "equals": "yes"}
+    },
+    {
+      "id": "create-rule",
+      "title": "Create a rule for main",
+      "instruction": "Click Add classic branch protection rule. Set Branch name pattern to main.",
+      "expected": "The rule editor targets main.",
+      "showIf": {"step": "existing-rule", "equals": "no"}
+    },
+    {
+      "id": "require-pr",
+      "title": "Require a pull request",
+      "instruction": "Enable Require a pull request before merging. For a new solo-owner rule, leave Require approvals off so you can merge your own PRs. If editing an existing rule, preserve any approval requirement unless you intend to change it.",
+      "expected": "Require a pull request before merging is checked.",
+      "links": [{"label": "GitHub branch protection documentation", "url": "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/managing-a-branch-protection-rule"}]
+    },
+    {
+      "id": "prevent-bypass",
+      "title": "Apply protection to administrators",
+      "instruction": "Enable Do not allow bypassing the above settings. Keep Allow force pushes and Allow deletions off. Do not add actors allowed to bypass required pull requests.",
+      "expected": "The rule applies to administrators as well as other contributors."
+    },
+    {
+      "id": "save-verify",
+      "title": "Save and check the rule",
+      "instruction": "Click Create or Save changes. Reopen the saved rule and confirm that it targets main, requires a pull request, and prevents bypassing. Click Done only after you have checked the saved settings.",
+      "expected": "The saved protection rule appears for main with the intended settings."
+    }
+  ]
+}
