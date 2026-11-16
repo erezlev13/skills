@@ -1,0 +1,4 @@
+interface:
+  display_name: "Step by Step"
+  short_description: "Follow one step at a time with buttons and help"
+  default_prompt: "Use $step-by-step to guide me through this task, one step at a time, with Next, Back, Done, and a way to ask for help."

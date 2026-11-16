@@ -1,8 +1,0 @@
-{
-  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
-  "name": "visual-response",
-  "version": "1.0.0",
-  "description": "Present long structured answers as navigable interactive visuals when supported.",
-  "repository": "https://github.com/erezlev13/skills",
-  "license": "MIT"
-}

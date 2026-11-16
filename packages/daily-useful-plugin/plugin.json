@@ -1,0 +1,8 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "daily-useful",
+  "version": "1.0.1",
+  "description": "Explore answers visually and follow interactive, one-step-at-a-time guidance with contextual questions.",
+  "repository": "https://github.com/erezlev13/skills",
+  "license": "MIT"
+}

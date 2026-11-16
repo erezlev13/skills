@@ -1,0 +1,4 @@
+interface:
+  display_name: "Visual Response"
+  short_description: "Explore answers with useful interactive visuals"
+  default_prompt: "Use $visual-response to explain this through a useful interactive visual."
