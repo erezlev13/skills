@@ -1,5 +1,6 @@
 import importlib.util
 import json
+import shutil
 import tempfile
 import unittest
 import zipfile
@@ -26,6 +27,9 @@ class PackagingTests(unittest.TestCase):
                 (folder / "README.md").write_text(f"# {skill}\nUser guide")
                 (folder / "assets/template.html").write_text("<div>Complete resource</div>")
 
+        shutil.copytree(self.root / "providers/chatgpt-work/visual-response",
+                        self.root / "sources/visual-response")
+
     def tearDown(self):
         self.temp.cleanup()
 
@@ -51,6 +55,28 @@ class PackagingTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             MODULE.build(self.root)
         self.assertEqual(before, existing.read_bytes())
+
+    def test_canonical_visual_replaces_both_provider_copies(self):
+        canonical = self.root / "sources/visual-response"
+        (canonical / "references").mkdir()
+        (canonical / "references/host.md").write_text("Live host contract")
+        for provider in ("codex", "chatgpt-work"):
+            generated = self.root / "providers" / provider / "visual-response"
+            (generated / "SKILL.md").write_text("drift")
+            (generated / "stale.txt").write_text("obsolete")
+        MODULE.build(self.root)
+        for provider in ("codex", "chatgpt-work"):
+            self.assertEqual(MODULE.source_files(canonical), MODULE.source_files(
+                self.root / "providers" / provider / "visual-response"))
+
+    def test_missing_canonical_preserves_outputs(self):
+        MODULE.build(self.root)
+        target = self.root / "providers/codex/visual-response/SKILL.md"
+        before = target.read_bytes()
+        (self.root / "sources/visual-response/SKILL.md").unlink()
+        with self.assertRaises(ValueError):
+            MODULE.build(self.root)
+        self.assertEqual(before, target.read_bytes())
 
     def test_stale_generated_files_removed(self):
         MODULE.build(self.root)

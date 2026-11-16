@@ -1,0 +1,195 @@
+[
+  {
+    "id": "positive-01",
+    "prompt": "Compare manual pilot, prototype, and custom MVP across time, cash cost, learning, and risk. Let me explore how my available hours change the recommendation.",
+    "environment": "Work with a documented inline renderer",
+    "expected_use": true,
+    "checks": [
+      "Keep all alternatives and decisive criteria visible",
+      "Label planning estimates",
+      "Controls update dependent values"
+    ]
+  },
+  {
+    "id": "positive-02",
+    "prompt": "Guide me through these six repository setup steps one at a time; let me move back and forward.",
+    "environment": "Work with renderer and step-by-step skill",
+    "expected_use": true,
+    "checks": [
+      "Delegate guided procedure",
+      "Navigation does not execute setup"
+    ]
+  },
+  {
+    "id": "positive-03",
+    "prompt": "Show the dependencies among these four dated releases: Jan 3 discovery, Jan 10 prototype, Feb 2 pilot, Feb 20 launch. Let me inspect each milestone.",
+    "environment": "Work with documented inline renderer",
+    "expected_use": true,
+    "checks": [
+      "Preserve four dates",
+      "Do not imply equal elapsed spacing"
+    ]
+  },
+  {
+    "id": "positive-04",
+    "prompt": "Help me explore these monthly signups: Jan 12, Feb 18, Mar 15, Apr 32, May 28, Jun 40. I want to inspect changes across months.",
+    "environment": "Work with documented inline renderer",
+    "expected_use": true,
+    "checks": [
+      "Preserve exact values",
+      "Label months and measure"
+    ]
+  },
+  {
+    "id": "positive-05",
+    "prompt": "Help me understand why adding indexes slows writes. Let me vary the number of indexes and see what happens.",
+    "environment": "Codex desktop with documented inline renderer",
+    "expected_use": true,
+    "checks": [
+      "Explain mechanism",
+      "Do not invent benchmark timings"
+    ]
+  },
+  {
+    "id": "positive-06",
+    "prompt": "Show how retry and backoff work by letting me advance through attempts and failures.",
+    "environment": "Claude with documented visualization tools",
+    "expected_use": true,
+    "checks": [
+      "Read live tool contract",
+      "Useful initial state"
+    ]
+  },
+  {
+    "id": "positive-07",
+    "prompt": "Build an interactive explanation of these two paths through a cache: hit and miss. Let me switch paths.",
+    "environment": "Work with documented inline renderer",
+    "expected_use": true,
+    "checks": [
+      "Explicit small visual overrides count signals",
+      "Meaningful state change"
+    ]
+  },
+  {
+    "id": "positive-08",
+    "prompt": "Compare three staffing plans across cost, completion date, and workload. Let me change team capacity and see the tradeoffs.",
+    "environment": "Work with documented inline renderer",
+    "expected_use": true,
+    "checks": [
+      "All criteria stay comparable",
+      "Disclose assumptions"
+    ]
+  },
+  {
+    "id": "positive-09",
+    "prompt": "Turn this existing comparison into an interactive version; keep its reasoning, cost ranges, milestones, examples, caveats, sources, and next decisions.",
+    "environment": "Work with documented inline renderer; baseline comparison supplied",
+    "expected_use": true,
+    "checks": [
+      "Preserve the content map",
+      "Retain adjacent narrative if renderer restricts it"
+    ]
+  },
+  {
+    "id": "positive-10",
+    "prompt": "Explain how queue length and worker count interact. Let me change inputs, and give me a reusable interactive explanation I can send to my team.",
+    "environment": "Claude with documented artifact tools",
+    "expected_use": true,
+    "checks": [
+      "Choose durable deliverable workflow",
+      "Verify delivery reference",
+      "Do not claim sharing without support"
+    ]
+  },
+  {
+    "id": "negative-01",
+    "prompt": "What is 2 + 2?",
+    "environment": "Work with documented inline renderer",
+    "expected_use": false,
+    "checks": [
+      "Answer 4 concisely"
+    ]
+  },
+  {
+    "id": "negative-02",
+    "prompt": "Compare three launch options across budget, time, and risk in plain text only.",
+    "environment": "Work with documented inline renderer",
+    "expected_use": false,
+    "checks": [
+      "Honor plain text"
+    ]
+  },
+  {
+    "id": "negative-03",
+    "prompt": "Give me a Markdown table comparing three providers on four attributes. No interactive UI.",
+    "environment": "Work with documented inline renderer",
+    "expected_use": false,
+    "checks": [
+      "Return Markdown table"
+    ]
+  },
+  {
+    "id": "negative-04",
+    "prompt": "Fix the retry bug and add the relevant regression test.",
+    "environment": "Codex desktop with documented inline renderer",
+    "expected_use": false,
+    "checks": [
+      "Perform coding task"
+    ]
+  },
+  {
+    "id": "negative-05",
+    "prompt": "Where are you with the implementation?",
+    "environment": "Work with documented inline renderer",
+    "expected_use": false,
+    "checks": [
+      "Give status without visualization"
+    ]
+  },
+  {
+    "id": "negative-06",
+    "prompt": "List five steps to rename a local Git branch. Keep it short.",
+    "environment": "Work with documented inline renderer",
+    "expected_use": false,
+    "checks": [
+      "Counts alone do not trigger"
+    ]
+  },
+  {
+    "id": "negative-07",
+    "prompt": "List these four release dates in chronological order: Jan 3, Feb 20, Jan 10, Feb 2.",
+    "environment": "Work with documented inline renderer",
+    "expected_use": false,
+    "checks": [
+      "Simple ordering stays text"
+    ]
+  },
+  {
+    "id": "negative-08",
+    "prompt": "What is the average of 10, 20, 30, 40, and 50?",
+    "environment": "Work with documented inline renderer",
+    "expected_use": false,
+    "checks": [
+      "Numeric data alone does not trigger"
+    ]
+  },
+  {
+    "id": "negative-09",
+    "prompt": "Compare three architecture options across cost, complexity, and latency; help me decide.",
+    "environment": "Terminal-only Codex CLI; no visual renderer",
+    "expected_use": false,
+    "checks": [
+      "Default to Markdown",
+      "No unsolicited HTML"
+    ]
+  },
+  {
+    "id": "negative-10",
+    "prompt": "Summarize these six paragraphs about the project into six bullets.",
+    "environment": "Work with documented inline renderer",
+    "expected_use": false,
+    "checks": [
+      "Length alone does not trigger"
+    ]
+  }
+]

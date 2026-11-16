@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the reproducible Daily Useful plugin from complete provider sources."""
+"""Build the reproducible Daily Useful plugin from canonical Visual Response and provider Step-by-step sources."""
 
 import argparse
 import json
@@ -54,9 +54,18 @@ def build(root):
         raise ValueError("Expected daily-useful plugin identity")
     package_readme = (package / "README.md").read_bytes()
     # Read all sources first; an incomplete provider cannot delete the existing package.
-    sources = {name: source_files(root / "providers/chatgpt-work" / name) for name in SKILLS}
-    for name in SKILLS:
-        source_files(root / "providers/codex" / name)
+    visual = source_files(root / "sources/visual-response")
+    sources = {name: (visual if name == "visual-response" else
+                     source_files(root / "providers/chatgpt-work" / name)) for name in SKILLS}
+    source_files(root / "providers/codex/step-by-step")
+    for provider in ("chatgpt-work", "codex"):
+        destination = root / "providers" / provider / "visual-response"
+        if destination.exists():
+            shutil.rmtree(destination)
+        for relative, data in visual:
+            target = destination / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(data)
     generated = package / "skills"
     if generated.exists():
         shutil.rmtree(generated)
