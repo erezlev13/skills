@@ -9,9 +9,18 @@ Two practical skills in one plugin: answers you can explore, and guidance you ca
 
 **[Download Daily Useful](downloads/daily-useful-plugin.zip)** · [Installation and usage](packages/daily-useful-plugin/README.md) · [Interactive catalog](https://erezlev13.github.io/skills/)
 
+## Claude Code
+
+```sh
+claude plugin marketplace add erezlev13/skills
+claude plugin install daily-useful@erezlev-skills
+```
+
+Use `/daily-useful:visual-response` or `/daily-useful:step-by-step`. [Claude Code guide](packages/daily-useful-claude/README.md).
+
 ## Development
 
-Edit `sources/visual-response/` for Visual Response; the build generates both provider copies and the plugin copy. For Step by Step, edit the provider folders. The build verifies complete plugin copies and creates a deterministic ZIP.
+Edit `sources/visual-response/` for Visual Response; the build generates all three provider copies and both plugin copies. For Step by Step, edit the provider folders. The build verifies complete plugin copies and creates a deterministic ZIP.
 
 ```sh
 python3 scripts/build_packages.py

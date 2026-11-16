@@ -1,0 +1,7 @@
+# Preserve an existing answer
+
+Treat the existing answer as the content baseline, not a request to summarize. Map recommendations, reasons, comparisons, costs, milestones, success criteria, examples, caveats, sources, and next decisions to visible content, accessible detail, or adjacent prose. Preserve ranges, units, and assumptions. Check this map before delivery; restore omissions. If the host restricts narrative inside the visual, retain it in adjacent prose. Honor requests for a full answer first and the interactive version afterward.
+
+Keep the recommendation and rationale visible initially. Controls must preserve both ends of ranges, units, qualifiers, and open-ended bounds. Never substitute a lower bound for an estimate or invent milestone durations, evidence, or scores to fill a layout. Label new assumptions separately. Preserve procedural stages and continue/revise/stop criteria. Check every mapped item is reachable and every number retains its meaning; remove unsupported additions. Optimize repeated instructions and code, not useful answer content.
+
+Use mechanisms where useful and expandable explanations where needed. Keep all requested comparison dimensions visible together. Optional detail may use clearly labeled accessible disclosure; material caveats must be visible before interaction. Preserve source citations, including verified code references. Do not make hover the only way to reach a fact.

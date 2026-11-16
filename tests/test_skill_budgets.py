@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 class SkillBudgetTests(unittest.TestCase):
     def test_discovery_and_instruction_budgets(self):
-        for provider in ("chatgpt-work", "codex"):
+        for provider in ("chatgpt-work", "codex", "claude-code"):
             for skill in ("visual-response", "step-by-step"):
                 path = ROOT / "providers" / provider / skill / "SKILL.md"
                 with self.subTest(provider=provider, skill=skill):

@@ -27,7 +27,7 @@ The entrypoint is compact; pattern guidance loads only when needed. Validation r
 - `scripts/check_fragment.py`: basic fragment checks, not browser or UI verification.
 - `agents/openai.yaml`: display metadata.
 
-Install through the Daily Useful plugin archive. Updating repository files alone does not update an already installed plugin.
+Install through the matching Daily Useful plugin package. For Claude Code, use the marketplace instructions in `packages/daily-useful-claude/README.md` and invoke `/daily-useful:visual-response`. Updating repository files alone does not update an already installed plugin.
 
 ## Content preservation
 
@@ -41,4 +41,4 @@ Only the matching capability adapter loads: ChatGPT/Work, Claude, or Codex. Tool
 
 ## Development and evaluation
 
-Edit `sources/visual-response/`; the build generates both provider folders and the plugin copy. Run `python3 scripts/build_packages.py` and `python3 -m unittest discover -s tests` from the repository root. See `evals/visual-response/README.md` for isolated trigger and behavior evaluations. Static tests do not prove automatic host invocation or visual quality.
+Edit `sources/visual-response/`; the build generates Work, Codex, and Claude Code provider folders and both plugin copies. Run `python3 scripts/build_packages.py` and `python3 -m unittest discover -s tests` from the repository root. See `evals/visual-response/README.md` for isolated trigger and behavior evaluations. Static tests do not prove automatic host invocation or visual quality.

@@ -1,6 +1,6 @@
 # Daily Useful
 
-Version **1.0.2** · One plugin containing **Visual Response** and **Step by Step**.
+Version **1.0.3** · One plugin containing **Visual Response** and **Step by Step**.
 
 The installer may display the plugin as `daily-useful`.
 
@@ -28,6 +28,10 @@ Skill entrypoints stay compact and load supporting guidance only when needed. RE
 ## Codex
 
 Copy a complete skill folder from the repository's `providers/codex/` into `~/.codex/skills/`, preserving its resources. Start a new conversation if discovery needs refreshing. A local Codex installation does not install a Work plugin.
+
+## Claude Code
+
+Use the separate [Claude Code package](../daily-useful-claude/README.md), installed from this repository as a marketplace. The Work archive is not the Claude package.
 
 ## Source and feedback
 

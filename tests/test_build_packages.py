@@ -17,9 +17,9 @@ class PackagingTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         manifest = self.root / "packages/daily-useful-plugin/plugin.json"
         manifest.parent.mkdir(parents=True)
-        manifest.write_text(json.dumps({"name": "daily-useful", "version": "1.0.0"}))
+        manifest.write_text(json.dumps({"name": "daily-useful", "version": "1.0.0", "description": "Two useful skills"}))
         (manifest.parent / "README.md").write_text("# Daily Useful\nInstallation and usage")
-        for provider in ("codex", "chatgpt-work"):
+        for provider in ("codex", "chatgpt-work", "claude-code"):
             for skill in MODULE.SKILLS:
                 folder = self.root / "providers" / provider / skill
                 (folder / "assets").mkdir(parents=True)
@@ -27,6 +27,9 @@ class PackagingTests(unittest.TestCase):
                 (folder / "README.md").write_text(f"# {skill}\nUser guide")
                 (folder / "assets/template.html").write_text("<div>Complete resource</div>")
 
+        claude_package = self.root / "packages/daily-useful-claude"
+        claude_package.mkdir(parents=True)
+        (claude_package / "README.md").write_text("# Claude Code\nInstall guide")
         shutil.copytree(self.root / "providers/chatgpt-work/visual-response",
                         self.root / "sources/visual-response")
 
@@ -56,16 +59,16 @@ class PackagingTests(unittest.TestCase):
             MODULE.build(self.root)
         self.assertEqual(before, existing.read_bytes())
 
-    def test_canonical_visual_replaces_both_provider_copies(self):
+    def test_canonical_visual_replaces_all_provider_copies(self):
         canonical = self.root / "sources/visual-response"
         (canonical / "references").mkdir()
         (canonical / "references/host.md").write_text("Live host contract")
-        for provider in ("codex", "chatgpt-work"):
+        for provider in ("codex", "chatgpt-work", "claude-code"):
             generated = self.root / "providers" / provider / "visual-response"
             (generated / "SKILL.md").write_text("drift")
             (generated / "stale.txt").write_text("obsolete")
         MODULE.build(self.root)
-        for provider in ("codex", "chatgpt-work"):
+        for provider in ("codex", "chatgpt-work", "claude-code"):
             self.assertEqual(MODULE.source_files(canonical), MODULE.source_files(
                 self.root / "providers" / provider / "visual-response"))
 

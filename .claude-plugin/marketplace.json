@@ -1,0 +1,14 @@
+{
+  "name": "erezlev-skills",
+  "owner": {
+    "name": "Erez Lev"
+  },
+  "plugins": [
+    {
+      "name": "daily-useful",
+      "source": "./packages/daily-useful-claude",
+      "description": "Visual explanations and one-step-at-a-time guidance for Claude Code."
+    }
+  ],
+  "description": "Daily Useful: visual explanations and guided workflows by Erez Lev."
+}
