@@ -11,7 +11,7 @@ Two practical skills in one plugin: answers you can explore, and guidance you ca
 
 ## Development
 
-Edit the provider folders. The build copies complete Work skills into the plugin, verifies those copies, and creates a deterministic ZIP; Codex instructions are maintained separately.
+Edit `sources/visual-response/` for Visual Response; the build generates both provider copies and the plugin copy. For Step by Step, edit the provider folders. The build verifies complete plugin copies and creates a deterministic ZIP.
 
 ```sh
 python3 scripts/build_packages.py

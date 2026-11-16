@@ -1,6 +1,6 @@
 # Daily Useful
 
-Version **1.0.1** · One plugin containing **Visual Response** and **Step by Step**.
+Version **1.0.2** · One plugin containing **Visual Response** and **Step by Step**.
 
 The installer may display the plugin as `daily-useful`.
 
