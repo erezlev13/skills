@@ -15,13 +15,15 @@ Make the answer inspectable and useful, with the host's native visual quality. D
 4. Read the available host `visualize` instructions in full, then only applicable component guides. Reuse already-read current instructions within the conversation unless changed or reload is required after compaction. Follow their rendering, content, style, file, and final-reference rules. Prefer native components. This skill cannot install a renderer or enable chat APIs.
 5. Resolve a renderer-readable, authorized output location on the actual executor. Do not assume `/workspace`, reuse another executor's paths, or substitute system temp. For an incompatible contract, discover a supported current one or disclose the limitation.
 
-Make the initial view answer the main question. Show mechanisms rather than prose tabs; align comparison criteria and quantitative scales. Preserve sources and material caveats in supported visible content or adjacent prose. Keep controls purposeful, selected states clear, and chrome minimal. Support narrow layouts, keyboard, focus, contrast, touch, and reduced motion.
+Make the initial view answer the main question. Use mechanisms where useful and expandable explanations where needed; align comparison criteria and quantitative scales. Preserve sources and material caveats in supported visible content or adjacent prose. Keep controls purposeful, selected states clear, and chrome minimal. Support narrow layouts, keyboard, focus, contrast, touch, and reduced motion.
 
 Keep navigation local. Use only documented, feature-detected follow-up APIs for intentional questions. Never claim navigation executed external actions or saved UI state proves task completion.
 
 ## Preserve the answer
 
 When converting an existing answer, treat it as the content baseline, not a request to summarize. Map recommendations, reasons, comparisons, costs, milestones, success criteria, examples, caveats, sources, and next decisions to visible content, accessible detail, or adjacent prose. Preserve ranges, units, and assumptions. Check this map before delivery; restore omissions. If the host restricts narrative inside the visual, retain it in adjacent prose. Honor requests for a full answer first and the interactive version afterward.
+
+Keep the recommendation and rationale visible initially. Controls must preserve both ends of ranges, units, qualifiers, and open-ended bounds. Never substitute a lower bound for an estimate or invent milestone durations, evidence, or scores to fill a layout. Label new assumptions separately. Preserve procedural stages and continue/revise/stop criteria. Check every mapped item is reachable and every number retains its meaning; remove unsupported additions. Optimize repeated instructions and code, not useful answer content.
 
 ## Verify and deliver efficiently
 
