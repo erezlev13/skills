@@ -22,11 +22,12 @@ class ClaudeDistributionTests(unittest.TestCase):
         work = json.loads((ROOT / 'packages/daily-useful-plugin/plugin.json').read_text())
         self.assertEqual(manifest['version'], work['version'])
         self.assertNotIn('$schema', manifest)
-        for name in ('visual-response', 'step-by-step'):
+        for name in ('visual-response', 'step-by-step', 'guiding-questions', 'simplify-code'):
             self.assertTrue((package / 'skills' / name / 'SKILL.md').is_file())
             self.assertTrue((package / 'skills' / name / 'README.md').is_file())
-        self.assertEqual((ROOT / 'providers/claude-code/step-by-step/SKILL.md').read_bytes(),
-                         (package / 'skills/step-by-step/SKILL.md').read_bytes())
+        for name in ('step-by-step', 'guiding-questions', 'simplify-code'):
+            self.assertEqual((ROOT / 'providers/claude-code' / name / 'SKILL.md').read_bytes(),
+                             (package / 'skills' / name / 'SKILL.md').read_bytes())
 
     def test_claude_zip_contains_exact_package(self):
         package = ROOT / 'packages/daily-useful-claude'

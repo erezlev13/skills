@@ -7,8 +7,8 @@
     {
       "name": "daily-useful",
       "source": "./packages/daily-useful-claude",
-      "description": "Visual explanations and one-step-at-a-time guidance for Claude Code."
+      "description": "Visual explanations, one-step-at-a-time guidance, guiding questions, and code simplification for Claude Code."
     }
   ],
-  "description": "Daily Useful: visual explanations and guided workflows by Erez Lev."
+  "description": "Daily Useful: visual explanations, guided workflows, and engineering skills by Erez Lev."
 }

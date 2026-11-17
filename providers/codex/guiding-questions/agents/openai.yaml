@@ -1,0 +1,4 @@
+interface:
+  display_name: "Guiding Questions"
+  short_description: "Pin down open-ended requests with short question rounds"
+  default_prompt: "Use $guiding-questions to ask me what I actually want before you build this."

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the reproducible Daily Useful plugin from canonical Visual Response and provider Step-by-step sources."""
+"""Build the reproducible Daily Useful plugin from canonical Visual Response and per-provider sources for the other skills."""
 
 import argparse
 import json
@@ -7,7 +7,8 @@ import shutil
 import zipfile
 from pathlib import Path
 
-SKILLS = ("visual-response", "step-by-step")
+SKILLS = ("visual-response", "step-by-step", "guiding-questions", "simplify-code")
+PROVIDER_SKILLS = SKILLS[1:]
 STAMP = (2026, 1, 1, 0, 0, 0)
 
 
@@ -57,9 +58,10 @@ def build(root):
     visual = source_files(root / "sources/visual-response")
     sources = {name: (visual if name == "visual-response" else
                      source_files(root / "providers/chatgpt-work" / name)) for name in SKILLS}
-    source_files(root / "providers/codex/step-by-step")
-    claude_sources = {"visual-response": visual,
-                      "step-by-step": source_files(root / "providers/claude-code/step-by-step")}
+    for name in PROVIDER_SKILLS:
+        source_files(root / "providers/codex" / name)
+    claude_sources = {"visual-response": visual}
+    claude_sources.update({name: source_files(root / "providers/claude-code" / name) for name in PROVIDER_SKILLS})
     claude_package = root / "packages/daily-useful-claude"
     claude_readme = (claude_package / "README.md").read_bytes()
     for provider in ("chatgpt-work", "codex", "claude-code"):

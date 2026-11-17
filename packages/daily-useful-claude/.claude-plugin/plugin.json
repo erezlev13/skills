@@ -1,7 +1,7 @@
 {
   "name": "daily-useful",
-  "version": "1.0.3",
-  "description": "Explore answers visually and follow interactive, one-step-at-a-time guidance with contextual questions.",
+  "version": "1.1.0",
+  "description": "Explore answers visually, follow one-step-at-a-time guidance, pin down open-ended requests with guiding questions, and simplify code without changing behavior.",
   "repository": "https://github.com/erezlev13/skills",
   "license": "MIT",
   "author": {
