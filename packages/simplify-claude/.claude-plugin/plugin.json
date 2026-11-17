@@ -1,0 +1,10 @@
+{
+  "name": "simplify",
+  "version": "1.0.0",
+  "description": "Pin down open-ended requests with guiding questions before building, and simplify code without changing what it does.",
+  "repository": "https://github.com/erezlev13/skills",
+  "license": "MIT",
+  "author": {
+    "name": "Erez Lev"
+  }
+}

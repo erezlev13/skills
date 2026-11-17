@@ -22,15 +22,16 @@ class VisualDistributionTests(unittest.TestCase):
                 self.assertEqual(canonical, MODULE.source_files(ROOT / relative),
                                  "Edit sources/visual-response and rebuild")
 
-    def test_committed_zip_matches_complete_package(self):
-        package = ROOT / "packages/daily-useful-plugin"
-        expected = {name: (package / name).read_bytes() for name in ("plugin.json", "README.md")}
-        for skill in MODULE.SKILLS:
-            expected.update({f"skills/{skill}/{name}": data
-                             for name, data in MODULE.source_files(package / "skills" / skill)})
-        with zipfile.ZipFile(ROOT / "downloads/daily-useful-plugin.zip") as archive:
-            self.assertEqual(len(archive.namelist()), len(set(archive.namelist())))
-            self.assertEqual(expected, {name: archive.read(name) for name in archive.namelist()})
+    def test_committed_zips_match_complete_packages(self):
+        for plugin, skills in MODULE.PLUGINS.items():
+            package = ROOT / "packages" / f"{plugin}-plugin"
+            expected = {name: (package / name).read_bytes() for name in ("plugin.json", "README.md")}
+            for skill in skills:
+                expected.update({f"skills/{skill}/{name}": data
+                                 for name, data in MODULE.source_files(package / "skills" / skill)})
+            with self.subTest(plugin=plugin), zipfile.ZipFile(ROOT / "downloads" / f"{plugin}-plugin.zip") as archive:
+                self.assertEqual(len(archive.namelist()), len(set(archive.namelist())))
+                self.assertEqual(expected, {name: archive.read(name) for name in archive.namelist()})
 
 
 if __name__ == "__main__":

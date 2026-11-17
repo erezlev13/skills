@@ -8,7 +8,12 @@
       "name": "daily-useful",
       "source": "./packages/daily-useful-claude",
       "description": "Visual explanations and one-step-at-a-time guidance for Claude Code."
+    },
+    {
+      "name": "simplify",
+      "source": "./packages/simplify-claude",
+      "description": "Guiding questions before building, and code simplification without behavior changes."
     }
   ],
-  "description": "Daily Useful: visual explanations and guided workflows by Erez Lev."
+  "description": "Skills by Erez Lev: Daily Useful (visual explanations and guided workflows) and Simplify (guiding questions and simpler code)."
 }

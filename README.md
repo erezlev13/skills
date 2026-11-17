@@ -18,9 +18,26 @@ claude plugin install daily-useful@erezlev-skills
 
 Use `/daily-useful:visual-response` or `/daily-useful:step-by-step`. [Claude Code guide](packages/daily-useful-claude/README.md).
 
+## Simplify
+
+A second plugin for building with less: **Guiding Questions** pins down open-ended requests with short multiple-choice rounds before building, and **Simplify Code** cuts files, moving parts, and surface without changing behavior.
+
+| Skill | Purpose | Guide |
+| --- | --- | --- |
+| **Guiding Questions** | Short multiple-choice rounds before building anything open-ended | [Work](providers/chatgpt-work/guiding-questions/README.md) · [Codex](providers/codex/guiding-questions/README.md) |
+| **Simplify Code** | Fewer files, moving parts, and surface, without changing behavior | [Work](providers/chatgpt-work/simplify-code/README.md) · [Codex](providers/codex/simplify-code/README.md) |
+
+**[Download Simplify](downloads/simplify-plugin.zip)** · [Installation and usage](packages/simplify-plugin/README.md)
+
+```sh
+claude plugin install simplify@erezlev-skills
+```
+
+Use `/simplify:guiding-questions` or `/simplify:simplify-code`. [Claude Code guide](packages/simplify-claude/README.md).
+
 ## Development
 
-Edit `sources/visual-response/` for Visual Response; the build generates all three provider copies and both plugin copies. For Step by Step, edit the provider folders. The build verifies complete plugin copies and creates a deterministic ZIP.
+Edit `sources/visual-response/` for Visual Response; the build generates all three provider copies and both plugin copies. For every other skill, edit the provider folders. The build verifies complete plugin copies and creates deterministic ZIPs for each plugin.
 
 ```sh
 python3 scripts/build_packages.py
