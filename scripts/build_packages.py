@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the reproducible Daily Useful plugin from canonical Visual Response and per-provider sources for the other skills."""
+"""Build the reproducible plugins from canonical Visual Response and per-provider skill sources."""
 
 import argparse
 import json
@@ -7,8 +7,8 @@ import shutil
 import zipfile
 from pathlib import Path
 
-SKILLS = ("visual-response", "step-by-step", "guiding-questions", "simplify-code")
-PROVIDER_SKILLS = SKILLS[1:]
+PLUGINS = {"daily-useful": ("visual-response", "step-by-step"),
+           "simplify": ("guiding-questions", "simplify-code")}
 STAMP = (2026, 1, 1, 0, 0, 0)
 
 
@@ -46,24 +46,67 @@ def write_zip(target, entries):
             raise ValueError(f"Archive contents differ from source: {target}")
 
 
+def read_plugin(root, name, skills, visual):
+    package = root / "packages" / f"{name}-plugin"
+    metadata = json.loads((package / "plugin.json").read_text())
+    if metadata.get("name") != name:
+        raise ValueError(f"Expected {name} plugin identity")
+    work_sources, claude_sources = {}, {}
+    for skill in skills:
+        if skill == "visual-response":
+            work_sources[skill] = claude_sources[skill] = visual
+            continue
+        work_sources[skill] = source_files(root / "providers/chatgpt-work" / skill)
+        source_files(root / "providers/codex" / skill)
+        claude_sources[skill] = source_files(root / "providers/claude-code" / skill)
+    return {"name": name, "metadata": metadata, "work_sources": work_sources, "claude_sources": claude_sources,
+            "work_readme": (package / "README.md").read_bytes(),
+            "claude_readme": (root / "packages" / f"{name}-claude" / "README.md").read_bytes()}
+
+
+def mirror_skills(destination, sources):
+    if destination.exists():
+        shutil.rmtree(destination)
+    entries = []
+    for name, files in sources.items():
+        for relative, data in files:
+            target = destination / name / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(data)
+            entries.append((f"skills/{name}/{relative}", data))
+    for name, files in sources.items():
+        if source_files(destination / name) != files:
+            raise ValueError(f"Generated plugin mirror differs: {destination / name}")
+    return entries
+
+
+def build_plugin(root, plugin):
+    name, metadata = plugin["name"], plugin["metadata"]
+    package = root / "packages" / f"{name}-plugin"
+    work_entries = [("plugin.json", (package / "plugin.json").read_bytes()), ("README.md", plugin["work_readme"])]
+    work_entries += mirror_skills(package / "skills", plugin["work_sources"])
+    work_zip = root / "downloads" / f"{name}-plugin.zip"
+    write_zip(work_zip, work_entries)
+    claude_manifest = {key: metadata[key] for key in ("name", "version", "description")}
+    claude_manifest.update({key: metadata[key] for key in ("repository", "license") if key in metadata})
+    claude_manifest["author"] = {"name": "Erez Lev"}
+    claude_package = root / "packages" / f"{name}-claude"
+    manifest_path = claude_package / ".claude-plugin/plugin.json"
+    manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    manifest_bytes = (json.dumps(claude_manifest, indent=2) + "\n").encode()
+    manifest_path.write_bytes(manifest_bytes)
+    claude_entries = [(".claude-plugin/plugin.json", manifest_bytes), ("README.md", plugin["claude_readme"])]
+    claude_entries += mirror_skills(claude_package / "skills", plugin["claude_sources"])
+    claude_zip = root / "downloads" / f"{name}-claude.zip"
+    write_zip(claude_zip, claude_entries)
+    return [work_zip, claude_zip]
+
+
 def build(root):
     root = Path(root)
-    package = root / "packages/daily-useful-plugin"
-    manifest = package / "plugin.json"
-    metadata = json.loads(manifest.read_text())
-    if metadata.get("name") != "daily-useful":
-        raise ValueError("Expected daily-useful plugin identity")
-    package_readme = (package / "README.md").read_bytes()
     # Read all sources first; an incomplete provider cannot delete the existing package.
     visual = source_files(root / "sources/visual-response")
-    sources = {name: (visual if name == "visual-response" else
-                     source_files(root / "providers/chatgpt-work" / name)) for name in SKILLS}
-    for name in PROVIDER_SKILLS:
-        source_files(root / "providers/codex" / name)
-    claude_sources = {"visual-response": visual}
-    claude_sources.update({name: source_files(root / "providers/claude-code" / name) for name in PROVIDER_SKILLS})
-    claude_package = root / "packages/daily-useful-claude"
-    claude_readme = (claude_package / "README.md").read_bytes()
+    plugins = [read_plugin(root, name, skills, visual) for name, skills in PLUGINS.items()]
     for provider in ("chatgpt-work", "codex", "claude-code"):
         destination = root / "providers" / provider / "visual-response"
         if destination.exists():
@@ -72,42 +115,7 @@ def build(root):
             target = destination / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             target.write_bytes(data)
-    generated = package / "skills"
-    if generated.exists():
-        shutil.rmtree(generated)
-    plugin_entries = [("plugin.json", manifest.read_bytes()), ("README.md", package_readme)]
-    for name, files in sources.items():
-        for relative, data in files:
-            target = generated / name / relative
-            target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_bytes(data)
-            plugin_entries.append((f"skills/{name}/{relative}", data))
-    write_zip(root / "downloads/daily-useful-plugin.zip", plugin_entries)
-    for name, files in sources.items():
-        if source_files(generated / name) != files:
-            raise ValueError(f"Generated plugin mirror differs: {name}")
-    claude_manifest = {key: metadata[key] for key in ("name", "version", "description")}
-    claude_manifest.update({key: metadata[key] for key in ("repository", "license") if key in metadata})
-    claude_manifest["author"] = {"name": "Erez Lev"}
-    manifest_path = claude_package / ".claude-plugin/plugin.json"
-    manifest_path.parent.mkdir(parents=True, exist_ok=True)
-    manifest_bytes = (json.dumps(claude_manifest, indent=2) + "\n").encode()
-    manifest_path.write_bytes(manifest_bytes)
-    generated = claude_package / "skills"
-    if generated.exists():
-        shutil.rmtree(generated)
-    claude_entries = [(".claude-plugin/plugin.json", manifest_bytes), ("README.md", claude_readme)]
-    for name, files in claude_sources.items():
-        for relative, data in files:
-            target = generated / name / relative
-            target.parent.mkdir(parents=True, exist_ok=True)
-            target.write_bytes(data)
-            claude_entries.append((f"skills/{name}/{relative}", data))
-        if source_files(generated / name) != files:
-            raise ValueError(f"Generated Claude plugin mirror differs: {name}")
-    claude_zip = root / "downloads/daily-useful-claude.zip"
-    write_zip(claude_zip, claude_entries)
-    return [root / "downloads/daily-useful-plugin.zip", claude_zip]
+    return [artifact for plugin in plugins for artifact in build_plugin(root, plugin)]
 
 
 if __name__ == "__main__":

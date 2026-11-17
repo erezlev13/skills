@@ -10,6 +10,6 @@ Each round has up to four questions with two to four concrete options drawn from
 
 ## Install and compatibility
 
-Use the **Daily Useful** plugin package; see its included README for installation. For Codex, copy this complete skill folder to your configured skills directory. Updating repository files alone does not update an installed plugin.
+Use the **Simplify** plugin package; see its included README for installation. For Codex, copy this complete skill folder to your configured skills directory. Updating repository files alone does not update an installed plugin.
 
 When the host has a multiple-choice question tool, the skill uses it; otherwise questions appear as a numbered list in chat, answered like `1a 2c`. No scripts, credentials, or additional service are required.

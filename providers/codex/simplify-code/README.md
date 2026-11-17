@@ -10,6 +10,6 @@ The assistant reads the code, its callers, and the repository's conventions, the
 
 ## Install and compatibility
 
-Use the **Daily Useful** plugin package; see its included README for installation. For Codex, copy this complete skill folder to your configured skills directory. Updating repository files alone does not update an installed plugin.
+Use the **Simplify** plugin package; see its included README for installation. For Codex, copy this complete skill folder to your configured skills directory. Updating repository files alone does not update an installed plugin.
 
 The skill is plain instructions: no scripts, credentials, or additional service are required. It reads `AGENTS.md` or `CLAUDE.md` when present.

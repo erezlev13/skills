@@ -1,6 +1,6 @@
 # Daily Useful
 
-Version **1.1.0** · One plugin containing **Visual Response**, **Step by Step**, **Guiding Questions**, and **Simplify Code**.
+Version **1.0.3** · One plugin containing **Visual Response** and **Step by Step**.
 
 The installer may display the plugin as `daily-useful`.
 
@@ -16,10 +16,8 @@ Installation controls can differ by account. This is a plugin archive, not a sin
 
 - **Visual Response:** “Compare these three approaches visually so I can explore the tradeoffs.”
 - **Step by Step:** “Walk me through protecting my GitHub main branch, one step at a time.”
-- **Guiding Questions:** “Ask me what I actually want before you design this skill.”
-- **Simplify Code:** “Simplify the invite e2e support folder without changing behavior.”
 
-See the bundled guides for details: [Visual Response](skills/visual-response/README.md), [Step by Step](skills/step-by-step/README.md), [Guiding Questions](skills/guiding-questions/README.md), and [Simplify Code](skills/simplify-code/README.md).
+See the bundled [Visual Response guide](skills/visual-response/README.md) and [Step by Step guide](skills/step-by-step/README.md) for details.
 
 ## What the host provides
 

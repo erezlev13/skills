@@ -15,21 +15,21 @@ class PackagingTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
-        manifest = self.root / "packages/daily-useful-plugin/plugin.json"
-        manifest.parent.mkdir(parents=True)
-        manifest.write_text(json.dumps({"name": "daily-useful", "version": "1.0.0", "description": "Two useful skills"}))
-        (manifest.parent / "README.md").write_text("# Daily Useful\nInstallation and usage")
-        for provider in ("codex", "chatgpt-work", "claude-code"):
-            for skill in MODULE.SKILLS:
-                folder = self.root / "providers" / provider / skill
-                (folder / "assets").mkdir(parents=True)
-                (folder / "SKILL.md").write_text(f"---\nname: {skill}\ndescription: Example\n---\n")
-                (folder / "README.md").write_text(f"# {skill}\nUser guide")
-                (folder / "assets/template.html").write_text("<div>Complete resource</div>")
-
-        claude_package = self.root / "packages/daily-useful-claude"
-        claude_package.mkdir(parents=True)
-        (claude_package / "README.md").write_text("# Claude Code\nInstall guide")
+        for plugin, skills in MODULE.PLUGINS.items():
+            manifest = self.root / "packages" / f"{plugin}-plugin" / "plugin.json"
+            manifest.parent.mkdir(parents=True)
+            manifest.write_text(json.dumps({"name": plugin, "version": "1.0.0", "description": "Two useful skills"}))
+            (manifest.parent / "README.md").write_text(f"# {plugin}\nInstallation and usage")
+            claude_package = self.root / "packages" / f"{plugin}-claude"
+            claude_package.mkdir(parents=True)
+            (claude_package / "README.md").write_text("# Claude Code\nInstall guide")
+            for provider in ("codex", "chatgpt-work", "claude-code"):
+                for skill in skills:
+                    folder = self.root / "providers" / provider / skill
+                    (folder / "assets").mkdir(parents=True)
+                    (folder / "SKILL.md").write_text(f"---\nname: {skill}\ndescription: Example\n---\n")
+                    (folder / "README.md").write_text(f"# {skill}\nUser guide")
+                    (folder / "assets/template.html").write_text("<div>Complete resource</div>")
         shutil.copytree(self.root / "providers/chatgpt-work/visual-response",
                         self.root / "sources/visual-response")
 
@@ -46,9 +46,10 @@ class PackagingTests(unittest.TestCase):
             self.assertIn("plugin.json", archive.namelist())
             self.assertIn("README.md", archive.namelist())
             self.assertIn("skills/step-by-step/README.md", archive.namelist())
-        for skill in MODULE.SKILLS:
-            self.assertEqual(MODULE.source_files(self.root / "providers/chatgpt-work" / skill),
-                             MODULE.source_files(self.root / "packages/daily-useful-plugin/skills" / skill))
+        for plugin, skills in MODULE.PLUGINS.items():
+            for skill in skills:
+                self.assertEqual(MODULE.source_files(self.root / "providers/chatgpt-work" / skill),
+                                 MODULE.source_files(self.root / "packages" / f"{plugin}-plugin/skills" / skill))
 
     def test_incomplete_source_preserves_existing_package(self):
         MODULE.build(self.root)
